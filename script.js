@@ -56,7 +56,7 @@ function makeDice(dice, diceBox) {
                 setTimeout(function () {
                     setTimeout(function () {
                         span.remove()
-                    }, 130000)
+                    }, 27000)
                     span.style.color = 'lightgray'
                 }, 13000)
 
