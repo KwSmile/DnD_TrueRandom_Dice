@@ -50,8 +50,15 @@ function makeDice(dice, diceBox) {
             fetch(`https://www.random.org/integers/?num=1&min=1&max=${newDie.value}&col=1&base=10&format=plain&rnd=new`
             ).then(res => res.json()
             ).then(data => {
+
                 let span = create('span', resContainer, 'res', null, true)
                 span.textContent = ` ${data}`
+                setTimeout(function () {
+                    setTimeout(function () {
+                        span.remove()
+                    }, 130000)
+                    span.style.color = 'lightgray'
+                }, 13000)
 
                 deleteLastChild(resContainer)
             })
