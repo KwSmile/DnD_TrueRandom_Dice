@@ -1,3 +1,52 @@
-.test{
-    color: lightgray
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgb(250, 236, 229);
+    
+}
+
+.diceBox{
+    margin: 30px 10px;
+    padding: 5px;
+
+    border-style: solid;
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+    border-width: 6px;
+    border-color:rgb(163, 130, 113);
+}
+
+.die{
+    margin: 3px;
+
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 3px;
+    border-color: rgb(163, 130, 113);
+
+    font-size: 23px;
+    font-weight: bold;
+    color: rgb(107, 75, 58);
+
+    background-color: rgb(238, 216, 205);
+}
+
+.die:hover{
+    border-color: rgb(204, 173, 158);
+}
+
+.res{
+    margin: auto;
+    font-size: 25px;
+    font-weight: bold;
+    color: rgb(107, 75, 58);
+}
+
+.count{
+    width: 37px;
 }

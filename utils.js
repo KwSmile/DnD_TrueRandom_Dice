@@ -19,7 +19,7 @@ export function create(HTMLelement, parent, classes, id, first) {
 }
 
 export function deleteLastChild(parent, count) {
-    if (parent.childElementCount > count) {
+    if (parent.childElementCount >= count) {
         parent.lastChild.remove()
     }
 }

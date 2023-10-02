@@ -10,49 +10,61 @@ function init() {
 function main(container) {
 
     const dice = [4, 6, 8, 10, 12, 20]
+    const dice2 = [20]
     const diceX = [4, 6, 8, 10, 12]
-    const diceBox = create('div', container, 'diceBox', null, true)
 
-    makeDice(dice, diceBox)
+    let diceBox = []
+    for (let i = 0; i < 4; i++) {
+        diceBox.push(create('div', container, 'diceBox', null))
+    }
 
-    customDice(diceBox)
+    makeDice(dice, diceBox[0])
 
-    multiDice(diceX, diceBox)
+    doubleDice(dice2, diceBox[1])
+
+    customDice(diceBox[2])
+
+    multiDice(diceX, diceBox[3])
 }
 
-function fetchNum(value, resContainer, count = 1) {
+function fetchNum(value, resContainer, count = 1, all = false, delay = 1) {
     fetch(`https://www.random.org/integers/?num=${count}&min=1&max=${value}&col=1&base=10&format=plain&rnd=new`
     ).then(res => res.text()
     ).then(function (data) {
 
-        let num = formatData(data, count)
-        printResult(resContainer, num)
+        let num = formatData(data, count, all)
+        printResult(resContainer, num, delay)
     })
 }
 
-function printResult(resContainer, num) {
+function printResult(resContainer, num, delay) {
     let span = create('span', resContainer, 'res', null, true)
     span.textContent = ` ${num}`
     setTimeout(function () {
         setTimeout(function () {
             span.remove()
-        }, 27000)
-        span.style.color = 'lightgray'
-    }, 13000)
+        }, 27000 * delay)
+        span.style.color = '#c7a999'
+    }, 13000 * delay)
 }
 
-function formatData(data, count) {
-    if (count == 1) {
-        return parseInt(data)
-    } else {
-        let arr = []
-        arr = data.split('\n', count)
-        console.log(arr);
-        let num = 0
-        arr.forEach(function (item) {
-            num += parseInt(item)
-        })
-        return num
+function formatData(data, count, all) {
+    if (!all) {
+        if (count == 1) {
+            return parseInt(data)
+        }
+        else {
+            let arr = []
+            arr = data.split('\n', count)
+            let num = 0
+            arr.forEach(function (item) {
+                num += parseInt(item)
+            })
+            return num
+        }
+    }
+    else {
+        return `[${data.split('\n', count).join(', ')}]`
     }
 }
 
@@ -72,13 +84,25 @@ function makeDice(dice, diceBox) {
     })
 }
 
-function doubleDice() {
-    
+function doubleDice(dice, diceBox) {
+    dice.forEach(function (die) {
+        let dieContainer = create('div', diceBox, 'dieContainer')
+        let newDie = create('button', dieContainer, 'die')
+        newDie.textContent = `2d${die}`
+        newDie.value = die
+
+        let resContainer = create('span', dieContainer)
+
+        newDie.addEventListener('click', function () {
+            fetchNum(newDie.value, resContainer, 2, true)
+            deleteLastChild(resContainer, 7)
+        })
+    })
 }
 
 function customDice(diceBox) {
     let dieContainer = create('div', diceBox, 'dieContainer')
-    let input = create('input', dieContainer)
+    let input = create('input', dieContainer, 'die')
     input.type = 'number'
     input.min = 2
     input.max = 1000
@@ -110,9 +134,9 @@ function customDice(diceBox) {
 
 function multiDice(dice, diceBox) {
     const counter = create('div', diceBox)
-    const minus = create('button', counter)
-    const count = create('span', counter)
-    const plus = create('button', counter)
+    const minus = create('button', counter, 'die count')
+    const count = create('span', counter, 'res')
+    const plus = create('button', counter, 'die count')
 
     plus.textContent = '+'
     minus.textContent = '-'
